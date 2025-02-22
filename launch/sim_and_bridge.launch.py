@@ -64,6 +64,7 @@ def generate_launch_description():
                                     robot_name + '/b_laser_link/gpu_lidar',
                         
                                     ])
+
     
     lidar_bridge_f = Node(package='ros_gz_bridge', 
                           executable = 'parameter_bridge',
@@ -121,7 +122,16 @@ def generate_launch_description():
                             robot_name + '/chassis',
                             'base_link'
                             ])
- 
+    
+    ur5_base_link = Node(package='tf2_ros',
+                            executable= 'static_transform_publisher',
+                            name='ur5_base_link_tf_pub',
+                            arguments=[
+                            '0', '0', '0', '0', '0', '0',
+                            robot_name + '/ur5_base_link',
+                            'ur5_base_link'
+                            ])
+
 
     joint_state_bridge = Node(package='ros_gz_bridge',
                               executable='parameter_bridge',
@@ -193,5 +203,6 @@ def generate_launch_description():
                               base_link_tf,
                               fortress_trj_control,
                               imu_bridge,
+                              ur5_base_link,
                               # laser_scan_merger
                               ]+ur_join_bridge_nodes)
